@@ -1,3 +1,2 @@
 #!/bin/bash
-go run main.go
-echo $Ejabberd_component
+go run main.go $Ejabberd_component
