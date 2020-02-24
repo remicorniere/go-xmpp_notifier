@@ -13,7 +13,7 @@ jobs:
         description: 'Custom greet with golang program'
         inputs:
         outputs:
-        runs:
+        run:
           using: 'docker'
           image: 'Dockerfile'
           args:
