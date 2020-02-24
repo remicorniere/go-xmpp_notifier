@@ -11,5 +11,3 @@ jobs:
         uses: ./
         with: # Set the secret as an input
           secret: ${{ secrets.Ejabberd_component }}
-        env:
-          TAG: ${{ secrets.Ejabberd_component }}
