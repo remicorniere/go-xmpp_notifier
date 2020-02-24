@@ -10,4 +10,6 @@ jobs:
         id: hello
         uses: ./
         with: # Set the secret as an input
-          Ejabberd_component: ${{ secrets.Ejabberd_component }}
+          secret: ${{ secrets.Ejabberd_component }}
+        env:
+          TAG: ${{ secrets.Ejabberd_component }}

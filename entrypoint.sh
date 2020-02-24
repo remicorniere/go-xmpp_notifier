@@ -1,2 +1,2 @@
 #!/bin/bash
-go run main.go "$INPUT_SECRET"
+go run main.go "$SECRET"
