@@ -1,0 +1,6 @@
+# action.yml
+name: 'Hello World'
+description: 'Custom greet with golang program'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
