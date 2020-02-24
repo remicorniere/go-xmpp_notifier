@@ -1,3 +1,3 @@
 #!/bin/bash
-echo "lul"
 go run main.go
+echo $Ejabberd_component

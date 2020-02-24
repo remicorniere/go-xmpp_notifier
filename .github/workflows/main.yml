@@ -9,3 +9,5 @@ jobs:
       - name: echo action step
         id: hello
         uses: ./
+        with: # Set the secret as an input
+          Ejabberd_component: ${{ secrets.Ejabberd_component }}
