@@ -1,9 +1,19 @@
 # action.yml
-name: 'Hello World'
-description: 'Custom greet with golang program'
-inputs:
-outputs:
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
+
+on:
+  push:
+    paths:
+      - .github/workflows/test.yaml
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Hello World'
+        description: 'Custom greet with golang program'
+        inputs:
+        outputs:
+        runs:
+          using: 'docker'
+          image: 'Dockerfile'
+          args:
