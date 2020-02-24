@@ -1,3 +1,3 @@
 #!/bin/bash
-echo $SECRET
+echo "${INPUT_SECRET}"
 go run main.go "$SECRET"
