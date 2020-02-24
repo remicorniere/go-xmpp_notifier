@@ -4,6 +4,8 @@ jobs:
     runs-on: ubuntu-latest
     name: hello only using bash script for now
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: echo action step
         id: hello
-        uses: actions/action.yml@v1
+        uses: ./
