@@ -1,0 +1,9 @@
+on: [push]
+jobs:
+  hello-script:
+    runs-on: ubuntu-latest
+    name: hello only using bash script for now
+    steps:
+      - name: echo action step
+        id: hello
+        uses: actions/action.yml@v1
