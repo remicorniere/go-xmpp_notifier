@@ -1,2 +1,2 @@
 #!/bin/bash
-go run main.go $Ejabberd_component
+go run main.go "$INPUT_SECRET"

@@ -5,3 +5,7 @@ author: 'Someone'
 runs:
   using: 'docker'
   image: 'Dockerfile'
+inputs:
+   secret:
+    description: 'server secret for component'
+    required: true
