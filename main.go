@@ -26,7 +26,7 @@ func main() {
 	}
 	config := xmpp.Config{
 		TransportConfiguration: xmpp.TransportConfiguration{
-			Address: os.Args[serverDomain] + ":" + port,
+			Address: "process-one.net" + ":" + port,
 		},
 		Jid:          os.Args[login],
 		Credential:   xmpp.Password(os.Args[pass]),
