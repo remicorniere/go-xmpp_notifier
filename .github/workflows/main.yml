@@ -19,3 +19,28 @@ jobs:
           message: |
             ${{ github.actor }} pushed ${{ github.event.ref }} ${{ github.event.compare }}
             ${{ join(github.event.commits.*.message) }}
+      - name: pr_info_step
+        id: pull_request
+        uses: ./
+        if: github.event_name == 'pull_request'
+        with: # Set the secrets as inputs
+          login: ${{ secrets.bot_username }}
+          pass: ${{ secrets.bot_password }}
+          server_domain: ${{ secrets.server_domain}}
+          correspondant: ${{ secrets.correspondant}}
+          server_port: ${{ secrets.server_port }}
+          message: |
+          ${{ github.actor }} opened PR ${{ github.event.html_url }}
+      - name: create_info_step
+        id: create
+        uses: ./
+        if: github.event_name == 'create' && github.event.ref_type == 'tag'
+        with: # Set the secrets as inputs
+          login: ${{ secrets.bot_username }}
+          pass: ${{ secrets.bot_password }}
+          server_domain: ${{ secrets.server_domain}}
+          correspondant: ${{ secrets.correspondant}}
+          server_port: ${{ secrets.server_port }}
+          message: |
+            ${{ github.actor }} tagged ${{ github.repository }} ${{ github.event.ref }}
+
