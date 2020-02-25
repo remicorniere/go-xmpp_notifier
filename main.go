@@ -23,8 +23,7 @@ func main() {
 		Jid:          os.Args[login],
 		Credential:   xmpp.Password("test"),
 		StreamLogger: os.Stdout,
-		Insecure:     true,
-		// TLSConfig: tls.Config{InsecureSkipVerify: true},
+		Insecure:     false,
 	}
 
 	router := xmpp.NewRouter()
