@@ -2,7 +2,7 @@ on: [push,pull_request, create]
 jobs:
   hello-script:
     runs-on: ubuntu-latest
-    name: hello only using bash script for now
+    name: workflow that pushes repo news to xmpp server
     steps:
       - name: Checkout
         uses: actions/checkout@v2
