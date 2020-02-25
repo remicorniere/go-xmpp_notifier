@@ -1,4 +1,4 @@
-on: [push]
+on: [push,pull_request, create]
 jobs:
   hello-script:
     runs-on: ubuntu-latest
@@ -6,12 +6,37 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: echo action step
-        id: hello
+      - name: push_info_step
+        id: push
         uses: ./
-        with: # Set the secret as an input
+        with: # Set the secrets as inputs
           login: ${{ secrets.bot_username }}
           pass: ${{ secrets.bot_password }}
           server_domain: ${{ secrets.server_domain}}
           correspondant: ${{ secrets.correspondant}}
           server_port: ${{ secrets.server_port }}
+          message: |
+            ${{ github.actor }} pushed ${{ github.event.ref }} ${{ github.event.compare }}
+            ${{ join(github.event.commits.*.message) }}
+      - name: pr_info_step
+          id: pull_request
+          uses: ./
+          with: # Set the secrets as inputs
+            login: ${{ secrets.bot_username }}
+            pass: ${{ secrets.bot_password }}
+            server_domain: ${{ secrets.server_domain}}
+            correspondant: ${{ secrets.correspondant}}
+            server_port: ${{ secrets.server_port }}
+            message: |
+              ${{ github.actor }} opened PR ${{ github.event.html_url }}
+      - name: create_info_step
+          id: create
+          uses: ./
+          with: # Set the secrets as inputs
+            login: ${{ secrets.bot_username }}
+            pass: ${{ secrets.bot_password }}
+            server_domain: ${{ secrets.server_domain}}
+            correspondant: ${{ secrets.correspondant}}
+            server_port: ${{ secrets.server_port }}
+            message: |
+              ${{ github.actor }} tagged ${{ github.repository }} ${{ github.event.ref }}

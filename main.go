@@ -15,6 +15,7 @@ const (
 	login
 	pass
 	serverPort
+	message
 )
 
 func main() {
@@ -46,7 +47,7 @@ func main() {
 		panic(err)
 	}
 
-	m := stanza.Message{Attrs: stanza.Attrs{To: os.Args[correspondent], Type: stanza.MessageTypeChat}, Body: "JUST TESTING LUL"}
+	m := stanza.Message{Attrs: stanza.Attrs{To: os.Args[correspondent], Type: stanza.MessageTypeChat}, Body: os.Args[message]}
 	err = client.Send(m)
 	if err != nil {
 		panic(err)

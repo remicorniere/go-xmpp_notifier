@@ -21,3 +21,6 @@ inputs:
    server_port:
      description: "server port for target notifications audience"
      required: false
+   message:
+     description: "message to send to xmpp entities"
+     required: true
