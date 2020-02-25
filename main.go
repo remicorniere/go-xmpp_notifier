@@ -18,7 +18,7 @@ const (
 func main() {
 	config := xmpp.Config{
 		TransportConfiguration: xmpp.TransportConfiguration{
-			Address: os.Args[serverDomain] + "5222",
+			Address: os.Args[serverDomain] + ":5222",
 		},
 		Jid:          os.Args[login],
 		Credential:   xmpp.Password("test"),
