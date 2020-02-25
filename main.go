@@ -21,7 +21,6 @@ func main() {
 	var port string
 	if os.Args[serverPort] == "" {
 		port = defaultServerPort
-		fmt.Printf("i found server port : %s", port)
 	} else {
 		port = os.Args[serverPort]
 	}
@@ -35,6 +34,8 @@ func main() {
 		Insecure:     false,
 	}
 
+	fmt.Println("connecting to : " + os.Args[serverDomain])
+	fmt.Println("sending messages to user :" + os.Args[correspondent])
 	router := xmpp.NewRouter()
 
 	client, err := xmpp.NewClient(config, router, errorHandler)
