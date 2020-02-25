@@ -12,12 +12,12 @@ inputs:
    pass:
      description: 'client password'
      required: true
-   server_ip:
-     description: 'ip of the server to, to change in hosts file'
-     required: true
    server_domain:
      description: 'server domain that serves as jid domain part for the client too'
      required: true
    correspondant:
      description: "user that this action sends messages to"
      required: true
+   server_port:
+     description: "server port for target notifications audience"
+     required: false

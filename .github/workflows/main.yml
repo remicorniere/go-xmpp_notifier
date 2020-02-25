@@ -10,8 +10,8 @@ jobs:
         id: hello
         uses: ./
         with: # Set the secret as an input
-          login: ${{ secrets.client_username }}
-          pass: ${{ secrets.client_password }}
-          server_ip: ${{ secrets.server_ip}}
-          server_domain: ${{ secrets.server_address }}
+          login: ${{ secrets.bot_username }}
+          pass: ${{ secrets.bot_password }}
+          server_domain: ${{ secrets.server_domain}}
           correspondant: ${{ secrets.correspondant}}
+          server_port: ${{ secrets.server_port }}

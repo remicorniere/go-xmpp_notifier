@@ -9,19 +9,27 @@ import (
 )
 
 const (
-	server_ip = iota
-	serverDomain
+	defaultServerPort = "5222"
+	serverDomain      = iota
 	correspondent
 	login
+	pass
+	serverPort
 )
 
 func main() {
+	var port string
+	if len(os.Args) < serverPort+1 {
+		port = defaultServerPort
+	} else {
+		port = os.Args[serverPort]
+	}
 	config := xmpp.Config{
 		TransportConfiguration: xmpp.TransportConfiguration{
-			Address: os.Args[serverDomain] + ":5222",
+			Address: os.Args[serverDomain] + ":" + port,
 		},
 		Jid:          os.Args[login],
-		Credential:   xmpp.Password("test"),
+		Credential:   xmpp.Password(os.Args[pass]),
 		StreamLogger: os.Stdout,
 		Insecure:     false,
 	}
