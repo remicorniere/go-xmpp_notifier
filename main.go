@@ -26,7 +26,7 @@ func main() {
 	}
 	config := xmpp.Config{
 		TransportConfiguration: xmpp.TransportConfiguration{
-			Address: "chat.process-one.net" + ":" + port,
+			Address: os.Args[serverDomain] + ":" + port,
 		},
 		Jid:          os.Args[login],
 		Credential:   xmpp.Password(os.Args[pass]),
@@ -34,8 +34,6 @@ func main() {
 		Insecure:     false,
 	}
 
-	fmt.Println("logging in as : " + os.Args[login][1:])
-	fmt.Println("sending messages to user :" + os.Args[correspondent][1:len(os.Args[correspondent])-2])
 	router := xmpp.NewRouter()
 
 	client, err := xmpp.NewClient(config, router, errorHandler)
