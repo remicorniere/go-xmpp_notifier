@@ -30,7 +30,7 @@ jobs:
           correspondant: ${{ secrets.correspondant}}
           server_port: ${{ secrets.server_port }}
           message: |
-          ${{ github.actor }} opened PR ${{ github.event.html_url }}
+            ${{ github.actor }} opened PR ${{ github.event.html_url }}
       - name: create_info_step
         id: create
         uses: ./
