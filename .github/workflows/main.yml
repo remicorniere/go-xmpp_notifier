@@ -14,3 +14,4 @@ jobs:
           pass: ${{ secrets.client_password }}
           server_ip: ${{ secrets.server_ip}}
           server_domain: ${{ secrets.server_address }}
+          correspondant: ${{ secrets.correspondant}}
