@@ -6,6 +6,5 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello gophers lel")
-	fmt.Println(len(os.Args[1]))
+	fmt.Println(os.Args[1][2:])
 }

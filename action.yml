@@ -6,6 +6,15 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
 inputs:
-   secret:
-    description: 'server secret for component'
+   login:
+    description: 'client login'
     required: true
+   pass:
+     description: 'client password'
+     required: true
+   server_ip:
+     description: 'ip of the server to, to change in hosts file'
+     required: true
+   server_domain:
+     description: 'server domain that serves as jid domain part for the client too'
+     required: true

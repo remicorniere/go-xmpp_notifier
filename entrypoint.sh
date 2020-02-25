@@ -1,3 +1,3 @@
 #!/bin/bash
-echo "${INPUT_SECRET}"
-go run main.go "${INPUT_SECRET}"
+echo "${INPUT_SERVER_IP}   ${INPUT_SERVER_DOMAIN}">>/etc/hosts
+go run main.go "${INPUT_SERVER_IP}"
