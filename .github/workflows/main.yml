@@ -1,4 +1,10 @@
-on: [push,pull_request, create]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+     branches:
+       - master
 jobs:
   hello-script:
     runs-on: ubuntu-latest
@@ -34,7 +40,7 @@ jobs:
       - name: create_info_step
         id: create
         uses: ./
-        if: github.event_name == 'create' && github.event.ref_type == 'tag'
+        if: github. == 'create' && github.event.ref_type == 'tag'
         with: # Set the secrets as inputs
           login: ${{ secrets.bot_username }}
           pass: ${{ secrets.bot_password }}
