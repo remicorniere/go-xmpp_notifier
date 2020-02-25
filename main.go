@@ -19,12 +19,11 @@ const (
 
 func main() {
 	var port string
-	if len(os.Args) < serverPort+1 {
+	if os.Args[serverPort] == "" {
 		port = defaultServerPort
-		fmt.Printf("using default port : %s", port)
+		fmt.Printf("i found server port : %s", port)
 	} else {
 		port = os.Args[serverPort]
-		fmt.Printf("i found server port : %s", port)
 	}
 	config := xmpp.Config{
 		TransportConfiguration: xmpp.TransportConfiguration{
