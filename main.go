@@ -34,8 +34,8 @@ func main() {
 		Insecure:     false,
 	}
 
-	fmt.Println("connecting to : " + os.Args[serverDomain])
-	fmt.Println("sending messages to user :" + os.Args[correspondent])
+	fmt.Println("connecting to : " + os.Args[serverDomain][1:])
+	fmt.Println("sending messages to user :" + os.Args[correspondent][1:])
 	router := xmpp.NewRouter()
 
 	client, err := xmpp.NewClient(config, router, errorHandler)
