@@ -50,23 +50,23 @@ func main() {
 	}
 
 	// Send presence to connect to chat room, if specified, and set the correspondentJid
-	var correspondentJid string
+	var correspondentJid *stanza.Jid
 	isCorrespRoom, err := strconv.ParseBool(os.Args[correspondent_is_room])
 	if err == nil && isCorrespRoom {
-		correspondentJid = os.Args[correspondent] + "@" + os.Args[serverDomain] + "/alias"
-		// Sending room presence
-		p := stanza.NewPresence(
-			stanza.Attrs{To: correspondentJid},
-		)
-		err = client.Send(p)
+		correspondentJid, err = stanza.NewJid(os.Args[correspondent] + "@" + os.Args[serverDomain] + "/github_bot")
 		if err != nil {
-			panic("failed to send presence to enter chat room :" + err.Error())
+			panic(err)
 		}
+		// Sending room presence
+		joinMUC(client, correspondentJid)
 	} else {
-		correspondentJid = os.Args[correspondent]
+		correspondentJid, err = stanza.NewJid(os.Args[correspondent])
+		if err != nil {
+			panic(err)
+		}
 	}
 
-	m := stanza.Message{Attrs: stanza.Attrs{To: correspondentJid, Type: stanza.MessageTypeChat}, Body: os.Args[message]}
+	m := stanza.Message{Attrs: stanza.Attrs{To: correspondentJid.Bare(), Type: stanza.MessageTypeChat}, Body: os.Args[message]}
 	err = client.Send(m)
 	if err != nil {
 		panic(err)
@@ -74,10 +74,7 @@ func main() {
 
 	// After sending the action message, let's disconnect from the chat room if we were connected to one.
 	if isCorrespRoom {
-		pOut := stanza.NewPresence(
-			stanza.Attrs{To: correspondentJid, Type: stanza.PresenceTypeUnavailable},
-		)
-		client.Send(pOut)
+		leaveMUC(client, correspondentJid)
 	}
 
 	client.Disconnect()
@@ -85,4 +82,21 @@ func main() {
 
 func errorHandler(err error) {
 	fmt.Println(err.Error())
+}
+
+func joinMUC(c xmpp.Sender, toJID *stanza.Jid) error {
+	return c.Send(stanza.Presence{Attrs: stanza.Attrs{To: toJID.Full()},
+		Extensions: []stanza.PresExtension{
+			stanza.MucPresence{
+				History: stanza.History{MaxStanzas: stanza.NewNullableInt(0)},
+			}},
+	})
+}
+
+func leaveMUC(c xmpp.Sender, muc *stanza.Jid) {
+	c.Send(stanza.Presence{Attrs: stanza.Attrs{
+		To:   muc.Full(),
+		Type: stanza.PresenceTypeUnavailable,
+	}})
+
 }
