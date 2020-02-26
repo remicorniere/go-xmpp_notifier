@@ -21,7 +21,7 @@ const (
 )
 
 func main() {
-	fmt.Println("PRINTING CORRESP :" + os.Args[correspondent])
+	fmt.Println("PRINTING DOMAIN :" + os.Args[serverDomain])
 	var port string
 	if os.Args[serverPort] == "" {
 		port = defaultServerPort
