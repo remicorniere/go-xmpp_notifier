@@ -62,6 +62,7 @@ func main() {
 		if err != nil {
 			panic("failed to send presence to enter chat room :" + err.Error())
 		}
+		fmt.Println("SENDING TO : " + correspondentJid)
 	} else {
 		correspondentJid = os.Args[correspondent]
 	}
