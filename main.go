@@ -17,16 +17,19 @@ const (
 	pass
 	serverPort
 	message
-	correspondent_is_room
+	correspondentIsRoom
 )
 
 func main() {
+	// Find server port from action config or use default one
 	var port string
 	if os.Args[serverPort] == "" {
 		port = defaultServerPort
 	} else {
 		port = os.Args[serverPort]
 	}
+
+	// Build client and connect to server
 	config := xmpp.Config{
 		TransportConfiguration: xmpp.TransportConfiguration{
 			Address: os.Args[serverDomain] + ":" + port,
@@ -36,10 +39,9 @@ func main() {
 		StreamLogger: os.Stdout,
 		Insecure:     false,
 	}
-
 	router := xmpp.NewRouter()
-
 	client, err := xmpp.NewClient(config, router, errorHandler)
+
 	if err != nil {
 		log.Fatalf("%+v", err)
 	}
@@ -49,10 +51,19 @@ func main() {
 		panic(err)
 	}
 
-	// Send presence to connect to chat room, if specified, and set the correspondentJid
+	// Check if we want to send to a chat room or a single user
+	// Send presence to connect to chat room, if specified
+	// Set the correspondentJid
 	var correspondentJid *stanza.Jid
-	isCorrespRoom, err := strconv.ParseBool(os.Args[correspondent_is_room])
-	if err == nil && isCorrespRoom {
+	isCorrespRoom, err := strconv.ParseBool(os.Args[correspondentIsRoom])
+	if err != nil {
+		panic("failed to determine if sending to a client or chat room : " + err.Error())
+	}
+
+	if isCorrespRoom {
+		// Building Jid for the room.
+		// Here we store the room name as the "node", the server domain as "domain" and the bot alias in the room as
+		// the "resource". See XEP-0045
 		correspondentJid, err = stanza.NewJid(os.Args[correspondent] + "@" + os.Args[serverDomain] + "/github_bot")
 		if err != nil {
 			panic(err)
@@ -66,7 +77,8 @@ func main() {
 		}
 	}
 
-	m := stanza.Message{Attrs: stanza.Attrs{To: correspondentJid.Bare(), Type: stanza.MessageTypeGroupchat}, Body: os.Args[message]}
+	// Send github message to recipient or chat room
+	m := stanza.Message{Attrs: stanza.Attrs{To: correspondentJid.Bare(), Type: getMessageType(isCorrespRoom)}, Body: os.Args[message]}
 	err = client.Send(m)
 	if err != nil {
 		panic(err)
@@ -76,14 +88,16 @@ func main() {
 	if isCorrespRoom {
 		leaveMUC(client, correspondentJid)
 	}
-
+	// And disconnect from the server
 	client.Disconnect()
 }
 
+// errorHandler is the client error handler
 func errorHandler(err error) {
 	fmt.Println(err.Error())
 }
 
+// joinMUC builds a presence stanza to request joining a chat room
 func joinMUC(c xmpp.Sender, toJID *stanza.Jid) error {
 	return c.Send(stanza.Presence{Attrs: stanza.Attrs{To: toJID.Full()},
 		Extensions: []stanza.PresExtension{
@@ -93,10 +107,19 @@ func joinMUC(c xmpp.Sender, toJID *stanza.Jid) error {
 	})
 }
 
+// leaveMUC builds a presence stanza to request leaving a chat room
 func leaveMUC(c xmpp.Sender, muc *stanza.Jid) {
 	c.Send(stanza.Presence{Attrs: stanza.Attrs{
 		To:   muc.Full(),
 		Type: stanza.PresenceTypeUnavailable,
 	}})
+}
 
+// getMessageType figures out the right message type for the github message, depending on what recipient is targeted.
+// Message type is important since servers are allowed to ignore messages that do not have an appropriate type
+func getMessageType(isCorrespRoom bool) stanza.StanzaType {
+	if isCorrespRoom {
+		return stanza.MessageTypeGroupchat
+	}
+	return stanza.MessageTypeChat
 }

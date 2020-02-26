@@ -19,11 +19,11 @@ jobs:
         with: # Set the secrets as inputs
           login: ${{ secrets.bot_username }}
           pass: ${{ secrets.bot_password }}
-          server_domain: "conference.process-one.net"
-          correspondant: "testgh"
+          server_domain: ${{ secrets.server_rooms_domain }}
+          correspondant: ${{ secrets.room_correspondent }}
           server_port: ${{ secrets.server_port }}
           message: |
-            ${{ github.actor }} pushed ${{ github.event.ref }} ${{ github.event.compare }}
+            ${{ github.actor }} pushed ${{ github.event.ref }} ${{ github.event.compare }} with message:
             ${{ join(github.event.commits.*.message) }}
           correspondent_is_room: true
       - name: pr_info_step
@@ -34,7 +34,7 @@ jobs:
           login: ${{ secrets.bot_username }}
           pass: ${{ secrets.bot_password }}
           server_domain: ${{ secrets.server_domain}}
-          correspondant: ${{ secrets.correspondant}}
+          correspondant: ${{ secrets.single_user_correspondent}}
           server_port: ${{ secrets.server_port }}
           message: |
             ${{ github.actor }} opened a PR ${{ github.event.html_url }}
