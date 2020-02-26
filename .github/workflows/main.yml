@@ -19,7 +19,7 @@ jobs:
         with: # Set the secrets as inputs
           login: ${{ secrets.bot_username }}
           pass: ${{ secrets.bot_password }}
-          server_domain: ${{ secrets.server_domain}}
+          server_domain: "conference.process-one.net
           correspondant: "testgh"
           server_port: ${{ secrets.server_port }}
           message: |
