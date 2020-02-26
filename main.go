@@ -21,7 +21,6 @@ const (
 )
 
 func main() {
-	fmt.Println("PRINTING FULL JID :" + os.Args[correspondent] + "@" + os.Args[serverDomain])
 	var port string
 	if os.Args[serverPort] == "" {
 		port = defaultServerPort
@@ -53,7 +52,7 @@ func main() {
 	// Send presence to connect to chat room, if specified, and set the correspondentJid
 	var correspondentJid string
 	isCorrespRoom, err := strconv.ParseBool(os.Args[correspondent_is_room])
-	if err != nil && isCorrespRoom {
+	if err == nil && isCorrespRoom {
 		correspondentJid = os.Args[correspondent] + "@" + os.Args[serverDomain]
 		// Sending room presence
 		p := stanza.NewPresence(
