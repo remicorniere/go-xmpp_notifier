@@ -25,8 +25,10 @@ jobs:
       - name: push_info_step
         id: push
         uses: ./
+        # Will only trigger when a push is made to the master branch
         if: github.event_name == 'push'
         with: # Set the secrets as inputs
+          # Login expects the bot's bare jid (user@domain)
           login: ${{ secrets.bot_username }}
           pass: ${{ secrets.bot_password }}
           server_domain: ${{ secrets.server_rooms_domain }}
@@ -44,16 +46,16 @@ jobs:
       - name: pr_info_step
         id: pull_request
         uses: ./
+        # Will only get triggered when a pull request to master is created
         if: github.event_name == 'pull_request'
         with: # Set the secrets as inputs
           login: ${{ secrets.bot_username }}
           pass: ${{ secrets.bot_password }}
-          server_domain: ${{ secrets.server_domain}}
-          correspondant: ${{ secrets.single_user_correspondent}}
-          server_port: ${{ secrets.server_port }}
+          server_domain: ${{ secrets.server_rooms_domain }}
+          correspondant: ${{ secrets.room_correspondent }}
           message: |
             ${{ github.actor }} opened a PR ${{ github.event.html_url }}
-          correspondent_is_room: false
+          correspondent_is_room: true
 ``` 
 
 ## action.yml  

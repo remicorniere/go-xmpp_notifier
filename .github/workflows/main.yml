@@ -1,10 +1,11 @@
 on:
+  # Specifies that we only want to trigger the following jobs on pushes and pull request creations for the master branch
   push:
     branches:
       - master
   pull_request:
-     branches:
-       - master
+    branches:
+      - master
 jobs:
   notif-script:
     runs-on: ubuntu-latest
@@ -15,27 +16,34 @@ jobs:
       - name: push_info_step
         id: push
         uses: ./
+        # Will only trigger when a push is made to the master branch
         if: github.event_name == 'push'
+        with: # Set the secrets as inputs
+          # Login expects the bot's bare jid (user@domain)
+          login: ${{ secrets.bot_username }}
+          pass: ${{ secrets.bot_password }}
+          server_domain: ${{ secrets.server_rooms_domain }}
+          # Correspondent is the intended recipient of the notification.
+          # If it is a single user, the bare Jid is expected (jid without resource)
+          # If it is a chat room, only the name of it is expected, and "server_domain" will be used to complete the jid
+          correspondant: ${{ secrets.room_correspondent }}
+          # Port is optional. Defaults to 5222
+          server_port: ${{ secrets.server_port }}
+          message: |
+            ${{ github.actor }} pushed ${{ github.event.ref }} ${{ github.event.compare }} with message:
+            ${{ join(github.event.commits.*.message) }}
+          # Boolean to indicate if correspondent should be treated as a room (true) or a single user
+          correspondent_is_room: true
+      - name: pr_info_step
+        id: pull_request
+        uses: ./
+        # Will only get triggered when a pull request to master is created
+        if: github.event_name == 'pull_request'
         with: # Set the secrets as inputs
           login: ${{ secrets.bot_username }}
           pass: ${{ secrets.bot_password }}
           server_domain: ${{ secrets.server_rooms_domain }}
           correspondant: ${{ secrets.room_correspondent }}
-          server_port: ${{ secrets.server_port }}
-          message: |
-            ${{ github.actor }} pushed ${{ github.event.ref }} ${{ github.event.compare }} with message:
-            ${{ join(github.event.commits.*.message) }}
-          correspondent_is_room: true
-      - name: pr_info_step
-        id: pull_request
-        uses: ./
-        if: github.event_name == 'pull_request'
-        with: # Set the secrets as inputs
-          login: ${{ secrets.bot_username }}
-          pass: ${{ secrets.bot_password }}
-          server_domain: ${{ secrets.server_domain}}
-          correspondant: ${{ secrets.single_user_correspondent}}
-          server_port: ${{ secrets.server_port }}
           message: |
             ${{ github.actor }} opened a PR ${{ github.event.html_url }}
-          correspondent_is_room: false
+          correspondent_is_room: true
