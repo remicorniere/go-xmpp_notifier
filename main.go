@@ -21,7 +21,7 @@ const (
 )
 
 func main() {
-	fmt.Println("PRINTING DOMAIN :" + os.Args[serverDomain])
+	fmt.Println("PRINTING FULL JID :" + os.Args[correspondent] + "@" + os.Args[serverDomain])
 	var port string
 	if os.Args[serverPort] == "" {
 		port = defaultServerPort
