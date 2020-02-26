@@ -6,7 +6,7 @@ on:
      branches:
        - master
 jobs:
-  hello-script:
+  notif-script:
     runs-on: ubuntu-latest
     name: workflow that pushes repo news to xmpp server
     steps:
