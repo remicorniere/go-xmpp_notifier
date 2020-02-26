@@ -20,11 +20,12 @@ jobs:
           login: ${{ secrets.bot_username }}
           pass: ${{ secrets.bot_password }}
           server_domain: ${{ secrets.server_domain}}
-          correspondant: ${{ secrets.correspondant}}
+          correspondant: "testgh"
           server_port: ${{ secrets.server_port }}
           message: |
             ${{ github.actor }} pushed ${{ github.event.ref }} ${{ github.event.compare }}
             ${{ join(github.event.commits.*.message) }}
+          correspondent_is_room: true
       - name: pr_info_step
         id: pull_request
         uses: ./
@@ -36,4 +37,5 @@ jobs:
           correspondant: ${{ secrets.correspondant}}
           server_port: ${{ secrets.server_port }}
           message: |
-            ${{ github.actor }} opened PR ${{ github.event.html_url }}
+            ${{ github.actor }} opened a PR ${{ github.event.html_url }}
+          correspondent_is_room: false
