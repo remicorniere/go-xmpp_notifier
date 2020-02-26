@@ -66,7 +66,7 @@ func main() {
 		}
 	}
 
-	m := stanza.Message{Attrs: stanza.Attrs{To: correspondentJid.Bare(), Type: stanza.MessageTypeChat}, Body: os.Args[message]}
+	m := stanza.Message{Attrs: stanza.Attrs{To: correspondentJid.Bare(), Type: stanza.MessageTypeGroupchat}, Body: os.Args[message]}
 	err = client.Send(m)
 	if err != nil {
 		panic(err)
