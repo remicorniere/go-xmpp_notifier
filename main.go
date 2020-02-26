@@ -53,7 +53,7 @@ func main() {
 	var correspondentJid string
 	isCorrespRoom, err := strconv.ParseBool(os.Args[correspondent_is_room])
 	if err == nil && isCorrespRoom {
-		correspondentJid = os.Args[correspondent] + "@" + os.Args[serverDomain]
+		correspondentJid = os.Args[correspondent] + "@" + os.Args[serverDomain] + "/alias"
 		// Sending room presence
 		p := stanza.NewPresence(
 			stanza.Attrs{To: correspondentJid},
